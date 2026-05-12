@@ -1,0 +1,80 @@
+body{
+    background-color: #f5f7fb;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Sidebar */
+
+.bg-dark{
+    background: #111827 !important;
+}
+
+.nav-link{
+    padding: 12px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.nav-link:hover{
+    background-color: #1f2937;
+    padding-left: 18px;
+}
+
+/* Cards */
+
+.card{
+    transition: 0.3s;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+/* Table */
+
+.table{
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.table th{
+    padding: 15px;
+}
+
+.table td{
+    padding: 15px;
+}
+
+/* Buttons */
+
+.btn{
+    border-radius: 10px;
+}
+
+/* Form */
+
+.form-control,
+.form-select{
+    border-radius: 10px;
+    padding: 12px;
+}
+
+/* Chart */
+
+canvas{
+    max-height: 400px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .min-vh-100{
+        min-height: auto !important;
+    }
+
+    .col-md-2{
+        min-height: auto;
+    }
+
+}
