@@ -54,6 +54,16 @@
     }
 
 }
+
+@media screen and (max-width:768px){
+
+    .main-content.shift{
+
+        margin-left:250px !important;
+        transition:0.3s ease;
+    }
+
+}
     </style>
 </head>
 
@@ -260,9 +270,14 @@ function toggleSidebar(){
     const sidebar =
         document.getElementById('sidebar');
 
+    const mainContent =
+        document.querySelector('.main-content');
+
     menuBtn.addEventListener('click', function(){
 
         sidebar.classList.toggle('active');
+
+        mainContent.classList.toggle('shift');
 
     });
 
