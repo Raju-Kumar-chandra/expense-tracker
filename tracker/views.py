@@ -187,7 +187,10 @@ def edit_expense(request, id):
     return render(
         request,
         'tracker/edit_expense.html',
-        {'form': form}
+        {
+            'form': form,
+            'expense': expense
+        }
     )
 
 @login_required
