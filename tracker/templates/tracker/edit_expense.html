@@ -27,6 +27,7 @@
                 #243b55
             );
             padding:20px;
+            position:relative;
         }
 
         .edit-container{
@@ -108,11 +109,32 @@
 
         }
 
+        .back-btn{
+    position:absolute;
+    top:20px;
+    left:20px;
+    text-decoration:none;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    background:rgba(255,255,255,0.1);
+    padding:10px 16px;
+    border-radius:10px;
+    transition:0.3s;
+    backdrop-filter:blur(5px);
+}
+
+.back-btn:hover{
+    background:white;
+    color:#111827;
+}
+
     </style>
 
 </head>
 
 <body>
+    <a href="{% url 'dashboard' %}" class="back-btn">   ←  </a>
 
     <div class="edit-container">
 
