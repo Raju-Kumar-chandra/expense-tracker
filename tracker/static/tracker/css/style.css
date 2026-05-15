@@ -77,21 +77,19 @@ body{
     gap:10px;
 }
 
-/* Chart */
-
 .chart-wrapper{
+
     width:100%;
-    max-width:320px;
-    height:320px;
-    margin:auto;
-    position:relative;
+    max-width:260px;
+    height:260px;
+    margin:0 auto;
 }
 
 .chart-wrapper canvas{
+
     width:100% !important;
     height:100% !important;
 }
-
 /* Table Responsive */
 
 .table-responsive{
@@ -123,120 +121,42 @@ body{
 
 @media screen and (max-width:768px){
 
-    body{
-        overflow-x:hidden;
-    }
-
-    /* Sidebar */
-
     .sidebar{
-        width:220px;
+
         position:fixed;
         top:0;
-        left:-220px;
-        z-index:1000;
+        left:-250px;
+        width:250px !important;
         height:100vh;
+        z-index:2000;
+        transition:left 0.3s ease;
     }
 
     .sidebar.active{
+
         left:0;
     }
 
-    /* Menu Button */
+    .main-content{
+
+        width:100%;
+        margin-left:0 !important;
+        padding:15px;
+    }
 
     .menu-btn{
+
         display:block;
         position:fixed;
         top:15px;
         left:15px;
-        z-index:1100;
-        border:none;
+        z-index:3000;
         background:#111827;
         color:white;
+        border:none;
         padding:10px 14px;
         border-radius:8px;
         font-size:20px;
-        cursor:pointer;
-    }
-
-    /* Main Content */
-
-    .main-content{
-        margin-left:0 !important;
-        width:100%;
-        padding:15px;
-    }
-
-    .dashboard-cards{
-        display:grid;
-        grid-template-columns:1fr;
-        gap:15px;
-    }
-
-    .card{
-        width:100%;
-        margin-bottom:15px;
-    }
-
-    .summary-card{
-        width:100% !important;
-    }
-
-    /* Typography */
-
-    h1{
-        font-size:28px !important;
-        text-align:center;
-    }
-
-    p{
-        font-size:15px !important;
-    }
-
-    /* Buttons */
-
-    .btn{
-        width:100%;
-        margin-bottom:10px;
-    }
-
-    /* Images */
-
-    img{
-        max-width:100%;
-        height:auto;
-    }
-
-    /* Search */
-
-    .search-container{
-        flex-direction:column;
-    }
-
-    .search-container input{
-        width:100%;
-    }
-
-    .search-container button{
-        width:100%;
-    }
-
-    /* Table */
-
-    .table{
-        font-size:12px;
-    }
-
-    th,
-    td{
-        padding:8px;
-    }
-
-    /* Chart */
-
-    .chart-wrapper{
-        max-width:260px;
-        height:260px;
     }
 
 }
