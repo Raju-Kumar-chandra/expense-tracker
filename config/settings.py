@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        'postgresql://expense_user:nyRqN7QGKazXt34vmQrcocgESgD6PlqV@dpg-d83fd3e7r5hc73bo5gh0-a.oregon-postgres.render.com/expense_db_pq9z'
+        os.environ.get("postgresql://expense_user:nyRqN7QGKazXt34vmQrcocgESgD6PlqV@dpg-d83fd3e7r5hc73bo5gh0-a.oregon-postgres.render.com/expense_db_pq9z")
     )
 }
 
