@@ -200,3 +200,29 @@ canvas{
     flex-direction:column;
     gap:5px;
 }
+
+/* MOBILE FIX */
+
+.chart-container{
+
+    width:100%;
+    max-width:320px;
+    margin:auto;
+}
+
+.chart-container canvas{
+
+    width:100% !important;
+    height:auto !important;
+}
+
+.table-responsive{
+
+    width:100%;
+    overflow-x:auto;
+}
+
+.table-responsive table{
+
+    min-width:600px;
+}
