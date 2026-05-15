@@ -11,6 +11,7 @@
 </head>
 
 <body class="bg-light">
+    <button class="menu-btn" onclick="toggleSidebar()"> ☰ </button>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 bg-dark text-white min-vh-100 p-4">
@@ -152,10 +153,54 @@
                     "{{ balance }}"
                 ],
 
+                backgroundColor: [
+                    '#1DA1F2',
+                    '#FF4D6D',
+                    '#F4B400'
+                ],
+
                 borderWidth: 1
+
             }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+
+                    position: 'top',
+
+                    labels: {
+
+                        boxWidth: 15,
+                        font: {
+                            size: 10
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
+
     });
+
+function toggleSidebar(){
+
+    document
+        .querySelector('.sidebar')
+        .classList.toggle('active');
+
+}
 
 </script>
 </body>
