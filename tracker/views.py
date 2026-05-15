@@ -19,10 +19,9 @@ def register_view(request):
 
         if form.is_valid():
 
-            user = form.save()
-            UserProfile.objects.create(
-            user=user
-            )
+            profile, created = UserProfile.objects.get_or_create(
+                user=user
+                )
 
             login(request, user)
 
@@ -258,9 +257,8 @@ def upload_profile_photo(request):
 
     if request.method == 'POST':
 
-        profile = UserProfile.objects.get(
-            user=request.user
-        )
+        profile, created = UserProfile.objects.get_or_create(
+    user=request.user)
 
         if request.FILES.get('profile_image'):
 
