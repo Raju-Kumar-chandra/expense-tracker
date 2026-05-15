@@ -1,26 +1,181 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Expense</title>
-        {% load static %}
-    <link rel="stylesheet" href="{% static 'tracker/css/style.css' %}">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(
+                135deg,
+                #141e30,
+                #243b55
+            );
+            padding:20px;
+        }
+
+        .edit-container{
+            width:100%;
+            max-width:500px;
+        }
+
+        .edit-card{
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .edit-card h1{
+            text-align:center;
+            margin-bottom:30px;
+            color:#111827;
+            font-size:36px;
+        }
+
+        .input-group{
+            margin-bottom:22px;
+        }
+
+        .input-group label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:600;
+            color:#374151;
+        }
+
+        .input-group input,
+        .input-group select{
+            width:100%;
+            padding:14px;
+            border:1px solid #d1d5db;
+            border-radius:12px;
+            font-size:16px;
+            transition:0.3s;
+            outline:none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus{
+            border-color:#2563eb;
+            box-shadow:0 0 8px rgba(37,99,235,0.3);
+        }
+
+        .update-btn{
+            width:100%;
+            padding:15px;
+            border:none;
+            border-radius:12px;
+            background:#2563eb;
+            color:white;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .update-btn:hover{
+            background:#1d4ed8;
+            transform:translateY(-2px);
+        }
+
+        /* Responsive */
+
+        @media(max-width:768px){
+
+            .edit-card{
+                padding:25px;
+            }
+
+            .edit-card h1{
+                font-size:28px;
+            }
+
+        }
+
+    </style>
+
 </head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow border-0 rounded-4 p-5">
-                    <h2 class="text-center mb-4 fw-bold"> Edit Expense </h2>
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button class="btn btn-primary w-100"> Update Expense </button>
-                    </form>
+
+<body>
+
+    <div class="edit-container">
+
+        <div class="edit-card">
+
+            <h1>Edit Expense</h1>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="input-group">
+
+                    <label>Title</label>
+
+                    <input 
+                        type="text"
+                        name="title"
+                        value="{{ expense.title }}"
+                        required
+                    >
+
                 </div>
-            </div>
+
+                <div class="input-group">
+
+                    <label>Amount</label>
+
+                    <input 
+                        type="number"
+                        step="0.01"
+                        name="amount"
+                        value="{{ expense.amount }}"
+                        required
+                    >
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Category</label>
+
+                    <select name="category">
+
+                        <option value="Bills">Bills</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+
+                </div>
+
+                <button type="submit" class="update-btn">
+                    Update Expense
+                </button>
+
+            </form>
+
         </div>
+
     </div>
+
 </body>
 </html>
