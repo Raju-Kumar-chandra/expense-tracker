@@ -179,3 +179,24 @@ canvas{
     }
 
 }
+
+.chart-container{
+
+    width:100%;
+    max-width:350px;
+    margin:auto;
+
+}
+
+canvas{
+
+    max-width:100% !important;
+    height:auto !important;
+
+}
+.action-buttons{
+
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
