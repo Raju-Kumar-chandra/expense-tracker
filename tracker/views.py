@@ -219,9 +219,9 @@ def add_income(request):
 @login_required
 def profile(request):
 
-    profile = UserProfile.objects.get(
+    profile, created = UserProfile.objects.get_or_create(
     user=request.user
-    )
+)
 
     expenses = Expense.objects.filter(
         user=request.user
