@@ -2,285 +2,470 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>Dashboard</title>
+
     {% load static %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
     <style>
+
+        body{
+            overflow-x:hidden;
+        }
+
+        /* Hamburger Button */
+
         .menu-btn{
-    display:none;
-}
+            display:none;
+        }
 
-@media screen and (max-width:768px){
+        /* Sidebar */
 
-    .menu-btn{
+        .sidebar{
+            background:#111827;
+        }
 
-        display:block;
-        position:fixed;
-        top:15px;
-        left:15px;
-        z-index:1100;
-        background:#111827;
-        color:white;
-        border:none;
-        padding:10px 14px;
-        border-radius:8px;
-        font-size:20px;
-    }
+        /* Chart */
 
-    .sidebar{
+        .chart-wrapper{
 
-        position:fixed;
-        top:0;
-        left:-250px;
-        width:250px !important;
-        height:100vh;
-        z-index:1000;
-        transition:0.3s ease;
-    }
+            width:100%;
+            max-width:260px;
+            height:260px;
+            margin:0 auto;
+        }
 
-    .sidebar.active{
+        .chart-wrapper canvas{
 
-        left:0;
-    }
+            width:100% !important;
+            height:100% !important;
+        }
 
-    .main-content{
+        /* Mobile Responsive */
 
-        margin-left:0 !important;
-        width:100%;
-        padding:15px;
-    }
+        @media screen and (max-width:768px){
 
-}
+            .menu-btn{
 
-@media screen and (max-width:768px){
+                display:block;
+                position:fixed;
+                top:15px;
+                left:15px;
+                z-index:3000;
+                background:#111827;
+                color:white;
+                border:none;
+                padding:10px 14px;
+                border-radius:8px;
+                font-size:20px;
+            }
 
-    .main-content.shift{
+            .sidebar{
 
-        margin-left:250px !important;
-        transition:0.3s ease;
-    }
+                position:fixed;
+                top:0;
+                left:-250px;
+                width:250px;
+                height:100vh;
+                z-index:2000;
+                transition:0.3s ease;
+            }
 
-}
-    </style>
-</head>
+            .sidebar.active{
 
-<body class="bg-light">
-    <button id="menuBtn" class="menu-btn">
-    ☰
-</button>
-    <div class="container-fluid">
-        <div class="row">
-            <div id="sidebar" class="sidebar col-md-2 bg-dark text-white p-4 min-vh-100">
-                <h2 class="fw-bold mb-5"> Expense Tracker  </h2>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-3">
-                        <a href="{% url 'profile' %}" class="nav-link text-white">Profile </a>
-                    </li>
-                    <li class="nav-item mb-3">
-                        <a href="{% url 'add_income' %}" class="nav-link text-white">Add Income </a>
-                    </li>
-                    <li class="nav-item mb-3">
-                         <a href="{% url 'add_expense' %}" class="nav-link text-white"> Add Expense </a>
-                    </li>
-                    <li class="nav-item mb-3">
-                        <a href="{% url 'logout' %}" class="nav-link text-danger">Logout </a>
-                    </li>
-                </ul>
+                left:0;
+            }
 
-        </div>
-        <div class="col-md-10 p-5">
-            <div class="row mb-5">
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow border-0 rounded-4 p-4">
-                        <h5 class="text-muted"> Total Income  </h5>
-                        <h2 class="text-success fw-bold mt-3">
-                            ₹ {{ total_income }}
-                        </h2>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow border-0 rounded-4 p-4">
-                        <h5 class="text-muted">
-                            Total Expense
-                        </h5>
-                        <h2 class="text-danger fw-bold mt-3">
-                            ₹ {{ total_expense }}
-                        </h2>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow border-0 rounded-4 p-4">
-                        <h5 class="text-muted">
-                            Balance
-                        </h5>
-                        <h2 class="text-primary fw-bold mt-3">
-                            ₹ {{ balance }}
-                        </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow border-0 rounded-4 p-4">
-                    <h5 class="text-muted"> Monthly Expense </h5>
-                    <h2 class="text-warning fw-bold mt-3"> ₹ {{ monthly_total }} </h2>
-                </div>
-            </div>
-            <div class="card shadow border-0 rounded-4 p-4 mb-5">
-                <h3 class="fw-bold mb-4"> Expense Analytics </h3>
-                <div class="chart-wrapper">
-                    <canvas id="expenseChart"></canvas>
-                </div>
-            </div>
-            <form method="GET" class="mb-4">
-                <div class="row">
-                    <div class="col-md-10">
-                        <input type="text" name="search" class="form-control" placeholder="Search expense...">
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-dark w-100"> Search  </button>
-                    </div>
-                </div>
-            </form>
-            <div class="card shadow border-0 rounded-4 p-4">
-                <h3 class="mb-4 fw-bold"> Recent Expenses </h3>
-                <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Title</th>
-                            <th>Amount</th>
-                            <th>Category</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for expense in expenses %}
-                        <tr>
-                            <td>{{ expense.title }}</td>
-                            <td class="text-danger fw-semibold"> ₹ {{ expense.amount }} </td>
-                            <td>{{ expense.category }}</td>
-                            <td>{{ expense.date }}</td>
-                            <td>
-                                <a href="{% url 'edit_expense' expense.id %}" class="btn btn-primary btn-sm">
-                                    Edit
-                                </a>
-                                <a href="{% url 'delete_expense' expense.id %}" class="btn btn-danger btn-sm">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">
-                                No expenses found
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   <script>
+            .main-content{
 
-    const ctx = document.getElementById('expenseChart');
+                width:100%;
+                padding:15px !important;
+            }
 
-    new Chart(ctx, {
+            h2{
+                font-size:22px;
+            }
 
-        type: 'pie',
+            .table{
+                font-size:12px;
+            }
 
-        data: {
-
-            labels: [
-                'Income',
-                'Expense',
-                'Balance'
-            ],
-
-            datasets: [{
-
-                data: [
-                    "{{ total_income }}",
-                    "{{ total_expense }}",
-                    "{{ balance }}"
-                ],
-
-                backgroundColor: [
-                    '#1DA1F2',
-                    '#FF4D6D',
-                    '#F4B400'
-                ],
-
-                borderWidth: 1
-
-            }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            maintainAspectRatio: false,
-
-            plugins: {
-
-                legend: {
-
-                    position: 'top',
-
-                    labels: {
-
-                        boxWidth: 15,
-                        font: {
-                            size: 10
-                        }
-
-                    }
-
-                }
-
+            .table td,
+            .table th{
+                padding:8px;
             }
 
         }
 
-    });
+    </style>
 
-function toggleSidebar(){
+</head>
 
-    document
-        .querySelector('.sidebar')
-        .classList.toggle('active');
+<body class="bg-light">
 
-}
+    <!-- Hamburger -->
 
-</script>
-<script>
+    <button id="menuBtn" class="menu-btn">
+        ☰
+    </button>
 
-    const menuBtn =
-        document.getElementById('menuBtn');
+    <div class="container-fluid">
 
-    const sidebar =
-        document.getElementById('sidebar');
+        <div class="row">
 
-    const mainContent =
-        document.querySelector('.main-content');
+            <!-- Sidebar -->
 
-    menuBtn.addEventListener('click', function(){
+            <div id="sidebar"
+                class="sidebar bg-dark text-white p-4 min-vh-100 col-md-2">
 
-        sidebar.classList.toggle('active');
+                <h2 class="fw-bold mb-5">
+                    Expense Tracker
+                </h2>
 
-        mainContent.classList.toggle('shift');
+                <ul class="nav flex-column">
 
-    });
+                    <li class="nav-item mb-3">
 
-</script>
+                        <a href="{% url 'profile' %}"
+                            class="nav-link text-white">
+
+                            Profile
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item mb-3">
+
+                        <a href="{% url 'add_income' %}"
+                            class="nav-link text-white">
+
+                            Add Income
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item mb-3">
+
+                        <a href="{% url 'add_expense' %}"
+                            class="nav-link text-white">
+
+                            Add Expense
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item mb-3">
+
+                        <a href="{% url 'logout' %}"
+                            class="nav-link text-danger">
+
+                            Logout
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- Main Content -->
+
+            <div class="main-content col-12 col-md-10 p-5">
+
+                <!-- Cards -->
+
+                <div class="row mb-5">
+
+                    <div class="col-md-4 mb-4">
+
+                        <div class="card shadow border-0 rounded-4 p-4">
+
+                            <h5 class="text-muted">
+                                Total Income
+                            </h5>
+
+                            <h2 class="text-success fw-bold mt-3">
+                                ₹ {{ total_income }}
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+
+                        <div class="card shadow border-0 rounded-4 p-4">
+
+                            <h5 class="text-muted">
+                                Total Expense
+                            </h5>
+
+                            <h2 class="text-danger fw-bold mt-3">
+                                ₹ {{ total_expense }}
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 mb-4">
+
+                        <div class="card shadow border-0 rounded-4 p-4">
+
+                            <h5 class="text-muted">
+                                Balance
+                            </h5>
+
+                            <h2 class="text-primary fw-bold mt-3">
+                                ₹ {{ balance }}
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Monthly Expense -->
+
+                <div class="col-md-4 mb-4">
+
+                    <div class="card shadow border-0 rounded-4 p-4">
+
+                        <h5 class="text-muted">
+                            Monthly Expense
+                        </h5>
+
+                        <h2 class="text-warning fw-bold mt-3">
+                            ₹ {{ monthly_total }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <!-- Chart -->
+
+                <div class="card shadow border-0 rounded-4 p-4 mb-5">
+
+                    <h3 class="fw-bold mb-4">
+                        Expense Analytics
+                    </h3>
+
+                    <div class="chart-wrapper">
+
+                        <canvas id="expenseChart"></canvas>
+
+                    </div>
+
+                </div>
+
+                <!-- Search -->
+
+                <form method="GET" class="mb-4">
+
+                    <div class="row">
+
+                        <div class="col-md-10 mb-2">
+
+                            <input type="text"
+                                name="search"
+                                class="form-control"
+                                placeholder="Search expense...">
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <button class="btn btn-dark w-100">
+
+                                Search
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <!-- Table -->
+
+                <div class="card shadow border-0 rounded-4 p-4">
+
+                    <h3 class="mb-4 fw-bold">
+                        Recent Expenses
+                    </h3>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-dark">
+
+                                <tr>
+
+                                    <th>Title</th>
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for expense in expenses %}
+
+                                <tr>
+
+                                    <td>{{ expense.title }}</td>
+
+                                    <td class="text-danger fw-semibold">
+
+                                        ₹ {{ expense.amount }}
+
+                                    </td>
+
+                                    <td>{{ expense.category }}</td>
+
+                                    <td>{{ expense.date }}</td>
+
+                                    <td>
+
+                                        <a href="{% url 'edit_expense' expense.id %}"
+                                            class="btn btn-primary btn-sm">
+
+                                            Edit
+
+                                        </a>
+
+                                        <a href="{% url 'delete_expense' expense.id %}"
+                                            class="btn btn-danger btn-sm">
+
+                                            Delete
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {% empty %}
+
+                                <tr>
+
+                                    <td colspan="5"
+                                        class="text-center text-muted">
+
+                                        No expenses found
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Chart JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        const ctx =
+            document.getElementById('expenseChart');
+
+        new Chart(ctx, {
+
+            type:'pie',
+
+            data:{
+
+                labels:[
+                    'Income',
+                    'Expense',
+                    'Balance'
+                ],
+
+                datasets:[{
+
+                    data:[
+                        "{{ total_income }}",
+                        "{{ total_expense }}",
+                        "{{ balance }}"
+                    ],
+
+                    backgroundColor:[
+                        '#1DA1F2',
+                        '#FF4D6D',
+                        '#F4B400'
+                    ],
+
+                    borderWidth:1
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+                maintainAspectRatio:false
+
+            }
+
+        });
+
+    </script>
+
+    <!-- Hamburger JS -->
+
+    <script>
+
+        const menuBtn =
+            document.getElementById('menuBtn');
+
+        const sidebar =
+            document.getElementById('sidebar');
+
+        menuBtn.addEventListener('click', function(){
+
+            sidebar.classList.toggle('active');
+
+        });
+
+    </script>
+
 </body>
+
 </html>
