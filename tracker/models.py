@@ -65,10 +65,11 @@ class UserProfile(models.Model):
         on_delete=models.CASCADE
     )
 
-    profile_image = models.ImageField(
-        upload_to='profile_pics/',
-        default='default.png'
-    )
+    profile_picture = models.ImageField(
+    upload_to='profile_pics/',
+    blank=True,
+    null=True
+)
 
     def __str__(self):
 

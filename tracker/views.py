@@ -19,25 +19,25 @@ def register_view(request):
 
         if form.is_valid():
 
-            profile, created = UserProfile.objects.get_or_create(
+            user = form.save()
+
+            UserProfile.objects.get_or_create(
                 user=user
-                )
+            )
 
-            login(request, user)
-
-            return redirect('dashboard')
-
-        else:
-
-            print(form.errors)
+            return redirect('login')
 
     else:
 
         form = RegisterForm()
 
-    return render(request, 'tracker/register.html', {
-        'form': form
-    })
+    return render(
+        request,
+        'tracker/register.html',
+        {
+            'form': form
+        }
+    )
 
 def login_view(request):
 
