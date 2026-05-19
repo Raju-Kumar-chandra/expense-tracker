@@ -5,7 +5,8 @@ from django.contrib.auth import (login, logout, authenticate)
 from django.contrib.auth.decorators import login_required
 from .models import Expense, Income, UserProfile
 from .forms import RegisterForm, ExpenseForm, IncomeForm
-
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 
 def home(request):
 
@@ -276,3 +277,36 @@ def upload_profile_photo(request):
             form.save()
 
     return redirect('profile')
+
+@login_required
+def monthly_analysis(request):
+
+    monthly_expenses = (
+
+        Expense.objects
+
+        .filter(user=request.user)
+
+        .annotate(month=TruncMonth('date'))
+
+        .values('month')
+
+        .annotate(total=Sum('amount'))
+
+        .order_by('-month')
+
+    )
+
+    return render(
+
+        request,
+
+        'tracker/monthly_analysis.html',
+
+        {
+
+            'monthly_expenses': monthly_expenses
+
+        }
+
+    )

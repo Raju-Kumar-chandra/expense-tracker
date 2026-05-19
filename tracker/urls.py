@@ -41,4 +41,6 @@ urlpatterns = [
 
     path('upload-profile-photo/', views.upload_profile_photo, name='upload_profile_photo'),
 
+    path('monthly-analysis/', views.monthly_analysis, name='monthly_analysis'),
+
 ]

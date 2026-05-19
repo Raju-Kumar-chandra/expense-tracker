@@ -264,17 +264,32 @@
 
                 <div class="col-md-4 mb-4">
 
-                    <div class="card shadow border-0 rounded-4 p-4">
+                    <a
+    href="{% url 'monthly_analysis' %}"
+    style="text-decoration:none;"
+>
 
-                        <h5 class="text-muted">
-                            Monthly Expense
-                        </h5>
+<div class="col-md-4 mb-4">
 
-                        <h2 class="text-warning fw-bold mt-3">
-                            ₹ {{ monthly_total }}
-                        </h2>
+    <div class="card shadow border-0 rounded-4 p-4">
 
-                    </div>
+        <h5 class="text-muted">
+
+            Monthly Expense
+
+        </h5>
+
+        <h2 class="text-warning fw-bold mt-3">
+
+            ₹ {{ monthly_total }}
+
+        </h2>
+
+    </div>
+
+</div>
+
+</a>
 
                 </div>
 
