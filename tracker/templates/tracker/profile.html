@@ -18,8 +18,33 @@
                         ←
                     </a>
                     <div class="text-center mb-4">
-                        <img src="{{ profile.profile_image.url }}" width="120" height="120" class="rounded-circle shadow"
-                            style="object-fit: cover;">
+                        <div class="text-center mb-4">
+
+    {% if request.user.userprofile.profile_picture %}
+
+        <img
+            src="{{ request.user.userprofile.profile_picture.url }}"
+            class="rounded-circle shadow"
+            width="120"
+            height="120"
+            style="object-fit:cover;"
+        >
+
+    {% else %}
+
+        <div
+            class="rounded-circle shadow"
+            style="
+                width:120px;
+                height:120px;
+                background:#f1f1f1;
+                margin:auto;
+            ">
+        </div>
+
+    {% endif %}
+
+</div>
                         <form 
                         method="POST" 
                         enctype="multipart/form-data"
