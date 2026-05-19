@@ -80,10 +80,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
+
     'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL")
+
+        "postgresql://expense_user:nyRqN7QGKazXt34vmQrcocgESgD6PlqV@dpg-d83fd3e7r5hc73bo5gh0-a.oregon-postgres.render.com/expense_db_pq9z"
+
     )
+
 }
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

@@ -1,4 +1,5 @@
 from datetime import datetime
+from .forms import ProfileForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import (login, logout, authenticate)
 from django.contrib.auth.decorators import login_required
@@ -258,17 +259,20 @@ def profile(request):
 @login_required
 def upload_profile_photo(request):
 
+    profile = request.user.userprofile
+
     if request.method == 'POST':
 
-        profile, created = UserProfile.objects.get_or_create(
-    user=request.user)
+        form = ProfileForm(
 
-        if request.FILES.get('profile_image'):
+            request.POST,
+            request.FILES,
 
-            profile.profile_image = request.FILES[
-                'profile_image'
-            ]
+            instance=profile
+        )
 
-            profile.save()
+        if form.is_valid():
+
+            form.save()
 
     return redirect('profile')
